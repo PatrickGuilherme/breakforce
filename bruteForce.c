@@ -79,9 +79,9 @@ int main(int argc, char **argv)
 
   dif = difftime (t2, t1);
   
-  //FILE *fp;
-  //fp = fopen("firstValue.dat", "w+");
-  //fprintf(fp, "%1.2f\n", dif);
+  FILE *fp;
+  fp = fopen("firstValue.dat", "w+");
+  fprintf(fp, "%1.2f\n", dif);
 
   printf("\n%1.2f seconds\n", dif);
   /* printf("some_long_computation took about %.5f seconds\n",
