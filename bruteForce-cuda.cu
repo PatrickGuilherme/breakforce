@@ -90,11 +90,11 @@ int main(int argc, char **argv)
   int threads_per_block = atoi(argv[2]);
   printf("number_of_blocks: %d | threads_per_block: %d\n", number_of_blocks, threads_per_block);
 
-  t1 = time(nullptr);
+  time(&t1);
   printf("Try to broke the password: %s\n", password);
   bruteForce<<< number_of_blocks, threads_per_block >>>(password_d);
   cudaDeviceSynchronize();
-  t2 = time(nullptr);
+  time(&t2);
 
   dif = difftime (t2, t1);
 
