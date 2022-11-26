@@ -4,6 +4,7 @@
 echo "==Compilar sequencial==" 
 gcc bruteForce.c -o bruteForce -std=c99 -O3
 
+#Executar sequencial
 echo "==Executar sequencial=="
 ./bruteForce "$1"
 
@@ -14,6 +15,19 @@ gcc bruteForce-omp.c -o bfomp -fopenmp -lm -std=c99 -O3
 #Compilar CUDA
 echo "==Compilar Cuda=="
 nvcc bruteForce-cuda.cu -o bruteForce-cuda
+
+#Compilar MPI
+echo "==Compilar mpi=="
+mpicc bruteForce-mpi.c -o bruteForce-mpi -fopenmp -std=c99 -O3
+
+#Executar MPI
+echo "==Executar mpi=="
+for((i = 2; i <= 128; i*=2))
+do
+    echo MPI "$i"
+    mpirun -x MXM_LOG_LEVEL=error -quiet -np "$i" --allow-run-as-root ./bruteForce-mpi _Hacka1
+done
+
 
 if [[  -f "speedup.dat" ]]; then
 rm -rf speedup.dat
