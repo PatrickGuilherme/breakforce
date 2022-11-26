@@ -45,17 +45,17 @@ void bruteForce(char *pass, long long int numInit, long long int numEnd)
   {
     if (j == pass_decimal)
     {
-      printf("Found password!\n");
+      printf("[ A senha foi quebrada! ]\n");
       int index = 0;
 
-      printf("Password in decimal base: %lli\n", j);
+      printf("[ Senha na base decimal: %lli ]\n", j);
       while (j > 0)
       {
         s[index++] = START_CHAR + j % base - 1;
         j /= base;
       }
       s[index] = '\0';
-      printf("Found password: %s\n", s);
+      printf("[ Senha encontrada: %s ]\n", s);
       flag = 1;
     }
     if (flag == 1)
@@ -63,7 +63,7 @@ void bruteForce(char *pass, long long int numInit, long long int numEnd)
       time(&t2);
       dif = difftime(t2, t1);
 
-      printf("\n%1.2f seconds\n", dif);
+      printf("[ Tempo breakforce: %1.2f segundos ]\n", dif); 
 
       MPI_Abort(MPI_COMM_WORLD, 0);
       break;
@@ -95,7 +95,7 @@ int main(int argc, char **argv)
 
   if (id == 0)
   {
-    printf("Try to broke the password: %s\n", password);
+    printf("[ Tentando quebrar a senha: %s ]\n", password);
     for (to = 1; to < numberOfProcessors; to++)
     {
       numInit = (max / (numberOfProcessors)) * (to);
@@ -118,7 +118,7 @@ int main(int argc, char **argv)
 
   dif = difftime(t2, t1);
 
-  printf("\n%1.2f seconds\n", dif);
+  printf("[ Tempo main: %1.2f segundos ]\n", dif);
 
   MPI_Abort(MPI_COMM_WORLD, 0);
   MPI_Finalize();

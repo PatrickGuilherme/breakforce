@@ -36,7 +36,7 @@ void bruteForce(char *pass)
   for(int i = 0; i < MAXIMUM_PASSWORD; i++)
     force[i] = '\0';
 
-  printf("Try to broke the password: %s\n", pass);
+  printf("[ Tentando quebrar a senha: %s ]\n", pass);
 
   for(int i = 0; i < size; i++)
     pass_b26[i] = (int) pass[i] - START_CHAR + 1; 
@@ -49,16 +49,16 @@ void bruteForce(char *pass)
 
   for(j = 0; j < max; j++){
     if(j == pass_decimal){
-      printf("Found password!\n");
+      printf("[ A senha foi quebrada! ]\n");
       int index = 0;
 
-      printf("Password in decimal base: %lli\n", j);
+      printf("[ Senha na base decimal: %lli ]\n", j);
       while(j > 0){
         s[index++] = START_CHAR + j%base-1;
         j /= base;
       }
       s[index] = '\0';
-      printf("Found password: %s\n", s);
+      printf("[ Senha encontrada: %s ]\n", s);
       break;
     }
   }
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
   fp = fopen("firstValue.dat", "w+");
   fprintf(fp, "%1.2f\n", dif);
 
-  printf("\n%1.2f seconds\n", dif);
+  printf("[ Tempo: %1.2f segundos ]\n", dif); 
   /* printf("some_long_computation took about %.5f seconds\n",
            ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - 
            ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec)); */
