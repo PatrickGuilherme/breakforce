@@ -23,12 +23,15 @@ long long my_pow(long long x, int y)
 
 void bruteForce(char *pass, long long int numInit, long long int numEnd)
 {
+  time_t t1, t2;
+  double dif;
   int flag = 0, pass_b26[MAXIMUM_PASSWORD];
   long long int j;
   long long int pass_decimal = 0;
   int base = END_CHAR - START_CHAR + 2;
+  time(&t1);
   int size = strlen(pass);
-
+  
   for (int i = 0; i < size; i++)
     pass_b26[i] = (int)pass[i] - START_CHAR + 1;
 
@@ -57,6 +60,11 @@ void bruteForce(char *pass, long long int numInit, long long int numEnd)
     }
     if (flag == 1)
     {
+      time(&t2);
+      dif = difftime(t2, t1);
+
+      printf("\n%1.2f seconds\n", dif);
+
       MPI_Abort(MPI_COMM_WORLD, 0);
       break;
     }
@@ -92,7 +100,6 @@ int main(int argc, char **argv)
     {
       numInit = (max / (numberOfProcessors)) * (to);
       numEnd = (max / (numberOfProcessors)) * (to + 1);
-      // printf("id(%d) : %lli -> %lli\n",to,numInit, numEnd);
       MPI_Send(&numInit, 1, MPI_LONG, to, tag, MPI_COMM_WORLD);
       MPI_Send(&numEnd, 1, MPI_LONG, to, tag, MPI_COMM_WORLD);
     }
