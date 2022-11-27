@@ -57,10 +57,6 @@ void bruteForce(char *pass, long long int numInit, long long int numEnd, int num
       s[index] = '\0';
       printf("Found password: %s\n", s);
 
-      flag = 1;
-    }
-    if (flag == 1)
-    {
       time(&t2);
       dif = difftime(t2, t1);
 
@@ -91,6 +87,10 @@ void bruteForce(char *pass, long long int numInit, long long int numEnd, int num
         fclose(fptr);
       }
 
+      flag = 1;
+    }
+    if (flag == 1)
+    {
       MPI_Abort(MPI_COMM_WORLD, 0);
       break;
     }
