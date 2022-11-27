@@ -57,3 +57,8 @@ do
     echo CUDA "$i"
     ./bruteForce-cuda "$1" "$i"
 done
+
+#Plotando os gráficos
+bash plotScript_print.sh speedup.dat OMP comparison_omp.png Threads
+bash plotScript_print.sh speedup_mpi.dat MPI comparison_mpi.png Processors
+bash plotScript_print.sh speedup_cuda.dat CUDA comparison_cuda.png Threads/Block
