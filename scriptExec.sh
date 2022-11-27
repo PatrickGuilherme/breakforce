@@ -39,7 +39,7 @@ echo "==Executar mpi=="
 for((i = 2; i <= 32; i*=2))
 do
     echo MPI "$i"
-    mpirun -x MXM_LOG_LEVEL=error -quiet -np "$i" --allow-run-as-root ./bruteForce-mpi _Hacka1
+    mpirun -x MXM_LOG_LEVEL=error -quiet -np "$i" --allow-run-as-root ./bruteForce-mpi "$1"
 done
 
 #Executa OMP
