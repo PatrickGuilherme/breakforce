@@ -20,14 +20,6 @@ nvcc bruteForce-cuda.cu -o bruteForce-cuda
 echo "==Compilar mpi=="
 mpicc bruteForce-mpi.c -o bruteForce-mpi -fopenmp -std=c99 -O3
 
-#Executar MPI
-echo "==Executar mpi=="
-for((i = 2; i <= 32; i*=2))
-do
-    echo MPI "$i"
-    mpirun -x MXM_LOG_LEVEL=error -quiet -np "$i" --allow-run-as-root ./bruteForce-mpi _Hacka1
-done
-
 
 if [[  -f "speedup.dat" ]]; then
 rm -rf speedup.dat
@@ -36,6 +28,19 @@ fi
 if [[  -f "speedup_cuda.dat" ]]; then
 rm -rf speedup_cuda.dat
 fi
+
+if [[  -f "speedup_mpi.dat" ]]; then
+rm -rf speedup_mpi.dat
+fi
+
+
+#Executar MPI
+echo "==Executar mpi=="
+for((i = 2; i <= 32; i*=2))
+do
+    echo MPI "$i"
+    mpirun -x MXM_LOG_LEVEL=error -quiet -np "$i" --allow-run-as-root ./bruteForce-mpi _Hacka1
+done
 
 #Executa OMP
 echo "==Executar OMP=="
