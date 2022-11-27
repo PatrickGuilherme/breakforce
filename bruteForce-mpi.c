@@ -21,10 +21,10 @@ long long my_pow(long long x, int y)
     return x * my_pow(x, y - 1);
 }
 
-void bruteForce(char *pass, long long int numInit, long long int numEnd)
+void bruteForce(char *pass, long long int numInit, long long int numEnd, int numberOfProcessors)
 {
   time_t t1, t2;
-  double dif;
+  double dif, x, speedup;
   int flag = 0, pass_b26[MAXIMUM_PASSWORD];
   long long int j;
   long long int pass_decimal = 0;
@@ -56,6 +56,7 @@ void bruteForce(char *pass, long long int numInit, long long int numEnd)
       }
       s[index] = '\0';
       printf("Found password: %s\n", s);
+
       flag = 1;
     }
     if (flag == 1)
@@ -64,6 +65,31 @@ void bruteForce(char *pass, long long int numInit, long long int numEnd)
       dif = difftime(t2, t1);
 
       printf("\n%1.2f seconds\n", dif);
+
+      FILE *fptr;
+      FILE *fptr1;
+      char c[1000];
+
+      if ((fptr1 = fopen("firstValue.dat", "r")) != NULL)
+      {
+        fscanf(fptr1, "%[^\n]", c);
+        x = atof(c);
+        
+        speedup = x/dif;
+        
+        fclose(fptr1);
+      }
+
+      if ((fptr = fopen("speedup_mpi.dat", "a+")) != NULL)
+      {
+        fprintf(fptr, "%d\t%1.2f\n", numberOfProcessors, speedup);
+        fclose(fptr);
+      }
+      else{
+        fopen("speedup_mpi.dat", "w+");
+        fprintf(fptr, "%d\t%1.2f\n", numberOfProcessors, speedup);
+        fclose(fptr);
+      }
 
       MPI_Abort(MPI_COMM_WORLD, 0);
       break;
@@ -105,21 +131,21 @@ int main(int argc, char **argv)
     }
     numInit = 0;
     numEnd = (max / (numberOfProcessors));
-    bruteForce(password, numInit, numEnd);
+    bruteForce(password, numInit, numEnd, numberOfProcessors);
     time(&t2);
   }
   else
   {
     MPI_Recv(&numInit, 1, MPI_LONG, 0, tag, MPI_COMM_WORLD, &status);
     MPI_Recv(&numEnd, 1, MPI_LONG, 0, tag, MPI_COMM_WORLD, &status);
-    bruteForce(password, numInit, numEnd);
+    bruteForce(password, numInit, numEnd, numberOfProcessors);
     time(&t2);
   }
 
   dif = difftime(t2, t1);
 
   printf("\n%1.2f seconds\n", dif);
-
+  
   MPI_Abort(MPI_COMM_WORLD, 0);
   MPI_Finalize();
   return 0;

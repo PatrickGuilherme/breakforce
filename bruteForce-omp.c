@@ -49,11 +49,9 @@ void bruteForce(char *pass)
   char s[MAXIMUM_PASSWORD];
   int flag = 0;
   time_t t1, t2;
-  double dif, x, speedup;
+  double dif, speedup, x;
  
   time (&t1);
-
-  
   #pragma omp parallel for private(j)
   for(j = 0; j < max; j++){
     
