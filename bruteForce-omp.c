@@ -67,9 +67,7 @@ void bruteForce(char *pass)
       s[index] = '\0';
       printf("Found password: %s\n", s);
       time (&t2);
-      flag = 1;
-    }
-    if(flag == 1){
+
       dif = difftime (t2, t1);
       printf("\n%1.2f seconds\n", dif); 
 
@@ -98,6 +96,9 @@ void bruteForce(char *pass)
         fclose(fptr);
       }
 
+      flag = 1;
+    }
+    if(flag == 1){
       exit(1);
     }
   }
